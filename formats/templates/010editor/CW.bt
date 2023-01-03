@@ -1,0 +1,117 @@
+//------------------------------------------------
+//--- 010 Editor v8.0.1 Binary Template
+//
+//      File: 
+//   Authors: 
+//   Version: 
+//   Purpose: 
+//  Category: 
+// File Mask: 
+//  ID Bytes: 
+//   History: 
+//------------------------------------------------
+
+CHAR magic[6];
+
+UINT FileSize;
+
+struct {
+  UINT16 Type;
+  UINT Size;
+
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+  FLOAT X;
+  FLOAT Y;
+  FLOAT Z;
+} SECTION;
+
+
+typedef struct (uint size, uint childn) {
+  local uint fsize = size;
+  UINT16 Type;
+  UINT Size;
+  switch (Type)  
+  {
+    case 1:
+        CHAR Name[Size];
+        //if (Name == "" )
+        //gkfkgfk();     
+    break;
+    case 2:
+        local uint size, value;
+        // wtf
+        size = ReadUInt(FTell() - 11);
+        value = ReadUByte(FTell() - 10); 
+        //
+        if (size != 1 && value != 0)
+        {
+          UINT ChildNum;
+
+          struct {
+              UINT16 Type2;
+              UINT Size1;
+              fsize = Size1; 
+              while (fsize > 0)
+                fsize -= readSection(Size, ChildNum);
+         } SECTION[ChildNum] <optimize=false>;
+       } else
+       {
+         UINT Count;
+         BYTE D[Size - 4];
+       }
+    break;
+    case 11:
+       UINT VertexNum;
+    break;
+    case 12:
+      UINT Count;
+      struct {
+        UINT16 Type2;
+        UINT Size1;
+        UINT16 Type2;
+        UINT Count;
+
+        UINT16 ABC;
+        UINT16 A;
+        UINT Length;
+        CHAR Name[Length];
+        UINT16 Type2;
+        UINT Size1;
+        UINT Size2;
+        struct {
+          BYTE R[ABC];
+        } VERTEX[Size2/ABC*10/10];
+        UINT16 Type2;
+        UINT Size1;
+        BYTE D[Size1];
+      } D[Count] <optimize=false>;
+    break;
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 13:
+    case 14:
+    case 15:
+        BYTE Data[Size];        
+    break;
+  };
+} SECTION;
+
+uint readSection(uint sectionSize, uint  cn)
+{
+  SECTION Section(sectionSize, cn);
+  return Section.Size + 6;
+}
+
+while (!FEof())
+{
+  readSection(0, 1);
+};
